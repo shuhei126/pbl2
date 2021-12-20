@@ -10,8 +10,10 @@ app = Flask(__name__)
 def index():
     return render_template('index.html', \
     title="姓名判断 雅の部屋~無料姓名判断~", \
-    message="あなたのお名前は？", \
-    message0="(左)姓　　　　　　　名(右)")
+    message="あなたのお名前は？(漢字入力)", \
+    message0="(左)姓　　　　　　　　名(右)", \
+    message20 = "この運勢はあくまで目安です。皆さん強く生きましょう", \
+    message21 = "　　　　　　")
 
 
 @app.route('/', methods=['POST'])
@@ -105,7 +107,10 @@ def form():
     message1 = message_l[0] + message_l[1], \
     message2 = message_l[2] + message_l[3], \
     message3 = message_l[4] + message_l[5], \
-    message4 = message_l[6] + message_l[7])
+    message4 = message_l[6] + message_l[7], \
+    message10 = "一般的に凶数とされる数[2 、4、 9、 10、 12、 14、 19、 20、 22、 26、 27、 28、 34、 36、 43、 44、 46、 49、 50、 51、 54、 56 、59、 60、 62、 64、 66、 69、 70、 72、 74、 76、 79、 80]（※9は人格数に限り吉になる）", \
+    message15 = "一般的に吉数とされる数[1、3、5、6、7、8、11、13、15、16、17、18、21、23、24、25、29、31、32、33、35、37、38、39、41、45、47、48、52、57、58、61、63、65、67、68、81]", \
+    message16 = "姓名には強弱の調和が重要であり,強い数ばかりを選ぶと、逆に凶意を強めることになってしまう場合もあるので注意!!!")
 
 
 
@@ -168,6 +173,16 @@ def kanji(moji):
             return 11
         if moji == '傑':
             return 13
+        if moji == '欣':
+            return 8
+        if moji == '也':
+            return 3
+        if moji == '伊':
+            return 6
+        if moji == '邊':
+            return 19
+        if moji == '斎':
+            return 17
         return 0
     else:
         return data['kanji']['strokes']['count']
@@ -175,5 +190,5 @@ def kanji(moji):
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=os.environ['PORT'])
-    #app.run(host='0.0.0.0', port=5000)
+    #app.run(host='0.0.0.0', port=os.environ['PORT'])
+    app.run(host='0.0.0.0', port=5000)

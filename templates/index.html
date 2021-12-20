@@ -1,22 +1,25 @@
 <head>
     <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
-    <title>卍-占いの館-卍</title>
+    <title>姓名判断 雅の部屋~無料姓名判断~</title>
 </head>
 <body>
     <div class ="header">
     </div>
     <div class="main">
         <h1>{{title}}</h1>
-        <p>{{message}
-            {message2}
-            {message3}
-            {message4}}
+        <p>{{message1}}
         </p>
+        <p>{{message2}}
+        </p>
+        <p>{{message3}}
+        </p>
+        <p>{{message4}}
+        </p>
+        <p>{{message}}</p>
+        <p>{{message0}}</p>
         <form method="post" action="/">
             <input type="text" name="field">
             <input type="submit">
-        </form>
-        <form method="post" action="/">
             <input type="text" name="field2">
             <input type="submit">
         </form>

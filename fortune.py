@@ -9,22 +9,12 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html', \
-    title="姓名判断bot", \
-    message="あなたのお名前は？")
+    title="姓名判断 雅の部屋~無料姓名判断~", \
+    message="あなたのお名前は？", \
+    message0="(左)姓　　　　　　　名(右)")
 
 
 @app.route('/', methods=['POST'])
-def form():
-    field = request.form['field']
-    print(len(field))
-    if len(field) > 5:
-        luck = '大吉'
-    else: luck = '凶'
-    return render_template('index.html', \
-    title="姓名判断bot", \
-    message="あなたの運勢は「%s」です！" % luck)
-
-
 def form():
     field = request.form['field']
     print(len(field))
@@ -40,7 +30,6 @@ def form():
 
 
     field2 = request.form['field2']
-
     print(len(field2))
     for moji in field2:
         print(moji)
@@ -53,45 +42,70 @@ def form():
     
     print(stroke_list2)
 
+    message_l = []
 
     jinkaku = stroke_list[-1] + stroke_list2[0]
-    print("あなたの人格は「%d画」です。" % jinkaku)
+    #message_l.append("あなたの人格は「%d画」です。" % jinkaku)
     if stroke_list[-1] + stroke_list2[0] in [11,15,16,17,18,21,29,31,37,41]:
-        print("30～50代前後の運勢を表します。あなたはとても親思いだったり、優しくて責任感の強い性格でしょう。")
+        message_l.append("あなたの人格は「%d画」です。" % jinkaku)
+        message_l.append("30～50代前後の運勢を表します。あなたはとても親思いだったり、優しくて責任感の強い性格でしょう。")
     else:
-        print("30～50代前後の運勢を表します。可もなく不可もなく，といったところでしょう")
+        if stroke_list[-1] + stroke_list2[0] == 4:
+            message_l.append("G")
+            message_l.append(" ")
+        else:
+            message_l.append("あなたの人格は「%d画」です。" % jinkaku)
+            message_l.append("30～50代前後の運勢を表します。可もなく不可もなく，といったところでしょう。")
 
 
     chikaku = sum(stroke_list2)
-    print("あなたの地格は「%d画」です。" % chikaku)
+    #message_l.append("あなたの地格は「%d画」です。" % chikaku)
     if sum(stroke_list2) in [7,8,17,18,37,47,48]:
-        print("0～30歳までの運勢や生涯の健康を表す部分です。7と8の数字を持つあなたは、病気とほとんど無縁で大病の心配はないでしょう")
+        message_l.append("あなたの地格は「%d画」です。" % chikaku)
+        message_l.append("0～30歳までの運勢や生涯の健康を表す部分です。7と8の数字を持つあなたは、病気とほとんど無縁で大病の心配はないでしょう。")
     else:
-        print("0～30歳までの運勢や生涯の健康を表す部分です。可もなく不可もなく，といったところでしょう")
-
+        if sum(stroke_list2) == 4:
+            message_l.append("O")
+            message_l.append(" ")
+        else:
+            message_l.append("あなたの地格は「%d画」です。" % chikaku)
+            message_l.append("0～30歳までの運勢や生涯の健康を表す部分です。可もなく不可もなく，といったところでしょう。")
+    
 
     gaikaku = stroke_list[0] + stroke_list2[-1]
-    print("あなたの外格は「%d画」です。" % gaikaku)
+    #message_l.append("あなたの外格は「%d画」です。" % gaikaku)
     if stroke_list[0] + stroke_list2[-1] in [13,15,16,17,23,24,29,32]:
-        print("対人関係による運勢や自分以外の人からくる運勢を表します。これに恵まれているあなたは、多少の壁にぶつかっても、へこたれないパワーをもつ人と言えるでしょう。")
+        message_l.append("あなたの外格は「%d画」です。" % gaikaku)
+        message_l.append("対人関係による運勢や自分以外の人からくる運勢を表します。これに恵まれているあなたは、多少の壁にぶつかっても、へこたれないパワーをもつ人と言えるでしょう。")
     else:
-        print("対人関係による運勢や自分以外の人からくる運勢を表します。可もなく不可もなく，といったところでしょう")
-
+        if stroke_list[0] + stroke_list2[-1] == 4:
+            message_l.append("D")
+            message_l.append(" ")
+        else:
+            message_l.append("あなたの外格は「%d画」です。" % gaikaku)
+            message_l.append("対人関係による運勢や自分以外の人からくる運勢を表します。可もなく不可もなく，といったところでしょう。")
+    
 
     soukaku = sum(stroke_list) + sum(stroke_list2)
-    print("あなたの総格は「%d画」です。" % soukaku)
+    #message_l.append("あなたの総格は「%d画」です。" % soukaku)
     if sum(stroke_list) + sum(stroke_list2) in [15,16,24,31,32,41,45,17,48,61]:
-        print("晩年50歳から死ぬまでの運勢と自分の全体を表す大事な部分です。家庭や仕事など、人生を総合的に見た場合のあなたの運勢は最高です！！！。")
+        message_l.append("あなたの総格は「%d画」です。" % soukaku)
+        message_l.append("晩年50歳から死ぬまでの運勢と自分の全体を表す大事な部分です。家庭や仕事など、人生を総合的に見た場合のあなたの運勢は最高です！！！")
     else:
-        print("晩年50歳から死ぬまでの運勢と自分の全体を表す大事な部分です。家庭や仕事など、人生を総合的に見た場合のあなたの運勢は，可もなく不可もなく，といったところでしょう")
-
+        if sum(stroke_list) + sum(stroke_list2) == 4:
+            message_l.append("!")
+            message_l.append(" ")
+        else:
+            message_l.append("あなたの総格は「%d画」です。" % soukaku)
+            message_l.append("晩年50歳から死ぬまでの運勢と自分の全体を表す大事な部分です。家庭や仕事など、人生を総合的に見た場合のあなたの運勢は，可もなく不可もなく，といったところでしょう。")
+    
 
     return render_template('index.html', \
-    title="姓名判断bot", \
-    message="あなたの人格は「%d画」です。" % jinkaku, \
-    message2="あなたの地格は「%d画」です。" % chikaku, \
-    message3="あなたの外格は「%d画」です。" % gaikaku, \
-    message4="あなたの総格は「%d画」です。" % soukaku)
+    title="姓名判断 雅の部屋~無料姓名判断~", \
+    message1 = message_l[0] + message_l[1], \
+    message2 = message_l[2] + message_l[3], \
+    message3 = message_l[4] + message_l[5], \
+    message4 = message_l[6] + message_l[7])
 
 
 
@@ -120,6 +134,40 @@ def kanji(moji):
             return 13
         if moji == '嵐':
             return 12
+        if moji == '颯':
+            return 14
+        if moji == '刈':
+            return 4
+        if moji == '斗':
+            return 4
+        if moji == '秀':
+            return 7
+        if moji == '藤':
+            return 18
+        if moji == '晟':
+            return 10
+        if moji == '井':
+            return 4
+        if moji == '杜':
+            return 7
+        if moji == '隼':
+            return 10
+        if moji == '彩':
+            return 11
+        if moji == '帆':
+            return 6
+        if moji == '翔':
+            return 12
+        if moji == '彌':
+            return 0
+        if moji == '冨':
+            return 0
+        if moji == '熊':
+            return 14
+        if moji == '笠':
+            return 11
+        if moji == '傑':
+            return 13
         return 0
     else:
         return data['kanji']['strokes']['count']
@@ -127,4 +175,5 @@ def kanji(moji):
 
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=os.environ['PORT'])
+    #app.run(host='0.0.0.0', port=os.environ['PORT'])
+    app.run(host='0.0.0.0', port=5000)

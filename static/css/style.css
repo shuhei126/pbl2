@@ -19,7 +19,7 @@
     position: absolute;
     top: -8px;
     left: 50%;
-    width: 200px;
+    width: 700px;
     height: 80px;
     border-radius: 50%;
     border: 5px solid #a6ddb0;
@@ -32,7 +32,7 @@
   p {
     position: relative;    
     color: #158b2b;
-    font-size: 40px;
+    font-size: 20px;
     text-align: center;
   }
 
